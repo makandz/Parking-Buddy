@@ -23,14 +23,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                <a class="nav-link waves-effect waves-light" href="index.html">Home</a>
             </li>
         </ul>
     </div>
 </nav>
 
-<div id="map" style="height: 500px;"></div>
+<div class="mt-5">
+    <center>
+        <h1 class="big-title">It's looking busy.</h1>
+        <h1 class="text-muted">Don't get lost in the crowd!</h1>
+        <div id="map" class="mt-5"></div>
+    </center>
+</div>
 
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -43,14 +49,24 @@
 <!-- Maps API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPpZF5XLdf5sCyIb-D-oUfQ5Td5zHgBbc&callback=initMap" async defer></script>
 <script>
+    var $_GET = {};
+
+    document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+        function decode(s) {
+            return decodeURIComponent(s.split("+").join(" "));
+        }
+
+        $_GET[decode(arguments[1])] = decode(arguments[2]);
+    });
+
     function initMap() {
-    // The location of Uluru
-    var uluru = {lat: -25.344, lng: 131.036};
-    // The map, centered at Uluru
-    var map = new google.maps.Map(
-        document.getElementById('map'), {zoom: 4, center: uluru});
-    // The marker, positioned at Uluru
-    var marker = new google.maps.Marker({position: uluru, map: map});
+        // The location of Uluru
+        var uluru = {lat: parseFloat($_GET.lat), lng: parseFloat($_GET.lng)};
+        // The map, centered at Uluru
+        var map = new google.maps.Map(
+            document.getElementById('map'), {zoom: 16, center: uluru});
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({position: uluru, map: map});
     }
 </script>
 

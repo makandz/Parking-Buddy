@@ -1,16 +1,8 @@
-datafile = open('trips.txt','r')
-station_name = {}
+import json
+from pprint import pprint
 
-for lines in datafile:
-    datalines = lines.split(',')
-    tripid = datalines[2]
-    names = datalines[3]
+with open('./server/data.json') as f:
+    data = json.load(f)
 
-    for names in datalines:
-        if names in station_name:
-            station_name[names] = station_name[names].append(tripid)
-    else: 
-      station_name[names] = [tripi]
-  
-
-datafile.close()
+for i in data['carparks']:
+    print(i['lat'], i['lng'])

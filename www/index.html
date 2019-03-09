@@ -37,10 +37,10 @@
             <h1 class="text-muted">What's the plan for today?</h1>
             <div class="big-spacing">
                 <div class="md-form">
-                    <input type="text" id="form-autocomplete" class="form-control big-box mdb-autocomplete">
-                    <label class="big-box-label">Trip Location</label>
+                    <input type="text" id="loc" class="form-control big-box mdb-autocomplete">
+                    <label class="big-box-label">Parking Locations Around:</label>
                 </div>
-                <a href="#" class="btn-floating blue-gradient btn-lg"><i class="fas fa-bus"></i></a>
+                <a id="done" class="btn-floating blue-gradient btn-lg"><i class="fas fa-bus"></i></a>
             </div>
         </div>
     </div>
@@ -54,16 +54,45 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://makan.bz/cdn/mdbootstrap/js/mdb.min.js"></script>
+<!-- Cookies! -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
 
 <script>
-var states = [
-    "95 - York Mills"
-];
+    var hist = Cookies.getJSON('ttc_hist');
+    console.log(hist);
 
-$('#form-autocomplete').mdb_autocomplete({
-data: states
-});
+    $('#loc').mdb_autocomplete({
+        data: hist
+    });
 
+    $("#done").click(function() {
+        // Send request to server.
+        $.post("https://maps.googleapis.com/maps/api/geocode/json?&address=" + $("#loc").val() + "&key=AIzaSyAPpZF5XLdf5sCyIb-D-oUfQ5Td5zHgBbc", $("#form").val())
+
+        // Returned info.
+        .done(function(data) {
+            // console.log(data);
+            if (data.status == "ZERO_RESULTS") {
+                toastr.warning("Location was not found!");
+            } else {
+                var boi = Cookies.getJSON('ttc_hist');
+
+                if (!boi) {
+                    boi = [$("#loc").val()];
+                } else {
+                    if (boi.indexOf($("#loc").val()) == -1)
+                        boi.push($("#loc").val());
+                }
+
+                Cookies.set('ttc_hist', boi);
+                window.location = "track.html?lat=" + data.results[0].geometry.location.lat + "&lng=" + data.results[0].geometry.location.lng;
+            }
+        })
+
+        .fail(function() {
+            toastr.error('No location was entered or an error occured with the Google Maps API.');
+        })
+    })
 </script>
 
 </body>
