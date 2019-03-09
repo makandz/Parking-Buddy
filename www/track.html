@@ -68,6 +68,16 @@
         // The marker, positioned at Uluru
         var marker = new google.maps.Marker({position: uluru, map: map});
     }
+
+    $("#done").ready(function() {
+        // Send request to server.
+        $.post("http://localhost:8000", $_GET.lng + "," + $_GET.lat)
+
+        // Returned info.
+        .done(function(data) {
+            console.log(data);
+        })
+    })
 </script>
 
 </body>
