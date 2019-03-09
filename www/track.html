@@ -17,7 +17,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light white">
-    <a class="navbar-brand" href="index.html">TTC Buddy</a>
+    <a class="navbar-brand" href="index.html">Parking Buddy</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,11 +32,20 @@
 
 <div class="mt-5">
     <center>
-        <h1 class="big-title">It's looking busy.</h1>
-        <h1 class="text-muted">Don't get lost in the crowd!</h1>
-        <div id="map" class="mt-5"></div>
+        <h1 class="big-title">Found some spots.</h1>
+        <h1 class="text-muted">We've sorted it for ease of use.</h1>
+        <div id="map" class="mt-5 mb-1"></div>
     </center>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div id="cards"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div id="foot"></div>
 
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -50,6 +59,9 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPpZF5XLdf5sCyIb-D-oUfQ5Td5zHgBbc&callback=initMap" async defer></script>
 <script>
     var $_GET = {};
+    var locations = [];
+    var places = [];
+    var map;
 
     document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
         function decode(s) {
@@ -59,25 +71,87 @@
         $_GET[decode(arguments[1])] = decode(arguments[2]);
     });
 
-    function initMap() {
-        // The location of Uluru
-        var uluru = {lat: parseFloat($_GET.lat), lng: parseFloat($_GET.lng)};
-        // The map, centered at Uluru
-        var map = new google.maps.Map(
-            document.getElementById('map'), {zoom: 16, center: uluru});
-        // The marker, positioned at Uluru
-        var marker = new google.maps.Marker({position: uluru, map: map});
-    }
-
-    $("#done").ready(function() {
+    $("body").ready(function() {
         // Send request to server.
         $.post("http://localhost:8000", $_GET.lng + "," + $_GET.lat)
 
         // Returned info.
         .done(function(data) {
             console.log(data);
+            data = data.split(";")
+            if (data == "") {
+                alert("No parking lots were found nearby!");
+                window.location = "index.html";
+            } else {
+                toPrint = "";
+                for (var i in data) {
+                    let stuff = data[i].split(",");
+                    locations.push(stuff);
+                    toPrint += `
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">` + stuff[3] + `<span class="float-right">Efficiency: ` + parseFloat(stuff[0]).toFixed(2) + `</h5>
+                            <p class="card-text"><b>Price: </b> ` + stuff[4] + ` / Half an Hour<span class="float-right"><b>Type: </b> ` + stuff[5] + `</span></p>
+                            <p class="card-text"><b>Capacity: </b> ` + stuff[6] + ` Vehicles<span class="float-right"><b>Distance: </b> ` + stuff[7] + `M</span></p>
+                            <a class="card-link" href="https://www.google.com/search?q=` + stuff[3] + ` parking" target="_blank">Look Up</a>
+                        </div>
+                    </div>
+                    `;
+                }
+
+                $("#cards").html(toPrint);
+                $("#foot").html(`<footer class="page-footer font-small blue">
+                    <div class="footer-copyright text-center py-3">Copyright (c)
+                        <a href="https://makan.bz"> Makan D</a> and Gary D
+                    </div>
+                </footer>`);
+            }
+
+            let count = 0;
+            for (var i in locations) {
+                places.push([locations[i][3], parseFloat(locations[i][1]), parseFloat(locations[i][2]), count]);
+                count++;
+            }
+
+            console.log(places);
+
+            setMarkers(map);
         })
     })
+
+    
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: {lat: parseFloat($_GET.lat), lng: parseFloat($_GET.lng)}
+        });
+    }
+
+    function setMarkers(map) {
+        var image = {
+            url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            size: new google.maps.Size(20, 32),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(0, 32)
+        };
+
+        var shape = {
+            coords: [1, 1, 1, 20, 18, 20, 18, 1],
+            type: 'poly'
+        };
+
+        for (var i = 0; i < places.length; i++) {
+            var beach = places[i];
+            var marker = new google.maps.Marker({
+                position: {lat: beach[1], lng: beach[2]},
+                map: map,
+                icon: image,
+                shape: shape,
+                title: beach[0],
+                zIndex: beach[3]
+            });
+        }
+    }
 </script>
 
 </body>

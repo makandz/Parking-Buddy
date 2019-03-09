@@ -1,5 +1,8 @@
 body {
     font-family: "Poppins";
+    padding-bottom: 5rem;
+    min-height: 100%;
+    position: relative;
 }
 
 .navbar {
@@ -9,4 +12,23 @@ body {
 .big-title {
     font-size: 70px;
     font-weight: 700;
+}
+
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #efefef;
+    text-align: center;
+}
+
+.hover, .card {
+    transition: box-shadow 0.45s;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+.hover:hover, .card:hover {
+    transition: box-shadow 0.45s;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

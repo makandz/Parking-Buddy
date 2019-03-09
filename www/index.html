@@ -17,7 +17,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light white">
-    <a class="navbar-brand" href="index.html">TTC Buddy</a>
+    <a class="navbar-brand" href="index.html">Parking Buddy</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -33,8 +33,8 @@
 <div class="container-fluid mt-5">
     <div class="row justify-content-center">
         <div class="col-12 text-center">
-            <h1 class="big-title">Good Evening, Makan.</h1>
-            <h1 class="text-muted">What's the plan for today?</h1>
+            <h1 class="big-title">Looking for parking?</h1>
+            <h1 class="text-muted">Find out what's the best spot.</h1>
             <div class="big-spacing">
                 <div class="md-form">
                     <input type="text" id="loc" class="form-control big-box mdb-autocomplete">
@@ -45,6 +45,12 @@
         </div>
     </div>
 </div>
+
+<footer class="page-footer font-small blue">
+    <div class="footer-copyright text-center py-3">Copyright (c)
+        <a href="https://makan.bz"> Makan D</a> and Gary D
+    </div>
+</footer>
 
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -60,6 +66,8 @@
 <script>
     var hist = Cookies.getJSON('ttc_hist');
     console.log(hist);
+    if (!hist)
+        hist = [];
 
     $('#loc').mdb_autocomplete({
         data: hist
@@ -71,7 +79,6 @@
 
         // Returned info.
         .done(function(data) {
-            // console.log(data);
             if (data.status == "ZERO_RESULTS") {
                 toastr.warning("Location was not found!");
             } else {

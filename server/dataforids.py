@@ -2,9 +2,6 @@ import json
 from pprint import pprint
 import math
 
-#radius of the earth
-R = 6373.0
-
 def calc(a, b):
     #location of the user
     lng1 = a
@@ -31,10 +28,21 @@ def calc(a, b):
 
     for i in data['carparks']:
         dist = distance((lt1, lng1), (float(i['lat']), float(i['lng'])))
-        if (dist < 1):
-            values.append([dist, i['lat'], i['lng'], i['address']])
+        if (dist < 0.75):
+            values.append(
+                [
+                    ((float(i['capacity'])) / 1000) / ( float(i['rate_half_hour']) * (dist * 5)) * 1000,
+                    i['lat'],
+                    i['lng'],
+                    i['address'],
+                    i['rate_half_hour'],
+                    i['carpark_type_str'],
+                    i['capacity'],
+                    str(round(dist * 1000, 2))
+                ]
+            )
 
-    values.sort()
+    values.sort(reverse = True)
     f.close()
     return values
 
@@ -52,21 +60,17 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         response = BytesIO()
         body = body.decode("utf-8").split(",")
         vals = calc(float(body[0]), float(body[1]))
-        response.write(b"{ \"results\": {")
         for i in range(len(vals)):
-            response.write(b'[')
-            response.write(("'" + str(vals[i][0]) + "'").encode("utf-8"))
-            response.write(b",")
-            response.write(("'" + str(vals[i][1]) + "'").encode("utf-8"))
-            response.write(b",")
-            response.write(("'" + str(vals[i][2]) + "'").encode("utf-8"))
-            response.write(b",")
-            response.write(("'" + str(vals[i][3]) + "'").encode("utf-8"))
+            response.write((str(vals[i][0]) + ",").encode("utf-8"))
+            response.write((str(vals[i][1]) + ",").encode("utf-8"))
+            response.write((str(vals[i][2]) + ",").encode("utf-8"))
+            response.write((str(vals[i][3]) + ",").encode("utf-8"))
+            response.write((str(vals[i][4]) + ",").encode("utf-8"))
+            response.write((str(vals[i][5]) + ",").encode("utf-8"))
+            response.write((str(vals[i][6]) + ",").encode("utf-8"))
+            response.write((str(vals[i][7])).encode("utf-8"))
             if i != len(vals) - 1:
-                response.write(b"],")
-            else:
-                response.write(b']')
-        response.write(b"} }")
+                response.write(b";")
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')  
         self.end_headers()
