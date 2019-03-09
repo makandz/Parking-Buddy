@@ -1,3 +1,2 @@
-# TTCBuddy
-TTC buddy helps you find TTC information.
-Buses only for now
+# Parking Buddy
+Parking buddy helps you finding the nearest parking lot for the entered location
