@@ -1,0 +1,70 @@
+<html>
+<head>
+    <!-- Bootstrap Base -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MDBoostrap -->
+    <link href="https://makan.bz/cdn/mdbootstrap/css/mdb.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <!-- Fontawesome icons -->
+    <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet">
+    <!-- Custom global styling -->
+    <link href="assets/css/global.css" rel="stylesheet">
+    <!-- Index styling -->
+    <link href="assets/css/index.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light white">
+    <a class="navbar-brand" href="index.html">TTC Buddy</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+               <a class="nav-link waves-effect waves-light" href="index.html">Home</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <h1 class="big-title">Good Evening, Makan.</h1>
+            <h1 class="text-muted">What's the plan for today?</h1>
+            <div class="big-spacing">
+                <div class="md-form">
+                    <input type="text" id="form-autocomplete" class="form-control big-box mdb-autocomplete">
+                    <label class="big-box-label">Trip Location</label>
+                </div>
+                <a href="#" class="btn-floating blue-gradient btn-lg"><i class="fas fa-bus"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://makan.bz/cdn/mdbootstrap/js/mdb.min.js"></script>
+
+<script>
+var states = [
+    "95 - York Mills"
+];
+
+$('#form-autocomplete').mdb_autocomplete({
+data: states
+});
+
+</script>
+
+</body>
+</html>

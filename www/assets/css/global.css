@@ -1,0 +1,12 @@
+body {
+    font-family: "Poppins";
+}
+
+.navbar {
+    padding: 20px;
+}
+
+.big-title {
+    font-size: 70px;
+    font-weight: 700;
+}

@@ -1,0 +1,58 @@
+<html>
+<head>
+    <!-- Bootstrap Base -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MDBoostrap -->
+    <link href="https://makan.bz/cdn/mdbootstrap/css/mdb.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <!-- Fontawesome icons -->
+    <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet">
+    <!-- Custom global styling -->
+    <link href="assets/css/global.css" rel="stylesheet">
+    <!-- Index styling -->
+    <link href="assets/css/track.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light white">
+    <a class="navbar-brand" href="index.html">TTC Buddy</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+               <a class="nav-link waves-effect waves-light" href="index.html">Home</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div id="map" style="height: 500px;"></div>
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://makan.bz/cdn/mdbootstrap/js/mdb.min.js"></script>
+<!-- Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPpZF5XLdf5sCyIb-D-oUfQ5Td5zHgBbc&callback=initMap" async defer></script>
+<script>
+    function initMap() {
+    // The location of Uluru
+    var uluru = {lat: -25.344, lng: 131.036};
+    // The map, centered at Uluru
+    var map = new google.maps.Map(
+        document.getElementById('map'), {zoom: 4, center: uluru});
+    // The marker, positioned at Uluru
+    var marker = new google.maps.Marker({position: uluru, map: map});
+    }
+</script>
+
+</body>
+</html>
